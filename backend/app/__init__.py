@@ -3,7 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from dotenv import load_dotenv
 from app.config import config
+
+
+load_dotenv()
+
+
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -17,6 +23,9 @@ def create_app(config_name='development'):
     
     # Load configuration
     app.config.from_object(config[config_name])
+
+    print("USING DB:", app.config.get("SQLALCHEMY_DATABASE_URI"))
+
     
     # Initialize extensions
     db.init_app(app)
