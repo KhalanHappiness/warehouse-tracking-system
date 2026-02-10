@@ -41,18 +41,18 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-navy-dark">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center">
             <div className="inline-block mb-8">
               <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center mx-auto shadow-lg shadow-primary/50">
-                <span className="text-navy font-bold text-4xl">GS</span>
+                <span className="text-navy font-bold text-4xl">LT</span>
               </div>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black mb-6">
              Logistics Tracker
             </h1>
             
@@ -90,7 +90,7 @@ const Home = () => {
                   {service.icon}
                 </div>
                 
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="text-xl font-semibold text-black mb-2">
                   {service.title}
                 </h3>
                 
@@ -114,8 +114,8 @@ const Home = () => {
       <div className="bg-navy py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Why Choose Logistics Tracker?</h2>
-            <p className="text-gray-300">Your trusted partner for China-Kenya logistics</p>
+            <h2 className="text-3xl font-bold text-black mb-4">Why Choose Logistics Tracker?</h2>
+            <p className="text-gray-400">Your trusted partner for China-Kenya logistics</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -140,7 +140,7 @@ const Home = () => {
                 <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
+                <h3 className="text-xl font-semibold text-black mb-2">{feature.title}</h3>
                 <p className="text-gray-400">{feature.description}</p>
               </div>
             ))}

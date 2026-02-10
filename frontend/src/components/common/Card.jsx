@@ -10,7 +10,7 @@ const Card = ({
   return (
     <div
       className={`
-        bg-navy-light border border-navy rounded-lg
+        bg-gray-50 border border-navy rounded-lg
         ${hover ? 'hover:border-primary transition-all duration-200 cursor-pointer' : ''}
         ${padding ? 'p-6' : ''}
         ${className}

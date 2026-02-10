@@ -12,8 +12,8 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0F1419;
-  color: #ffffff;
+  background-color: #FFFFFF;  /* Changed to white */
+  color: #111827;  /* Dark text for readability */
 }
 
 /* Custom Scrollbar */
@@ -23,7 +23,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1A2332;
+  background: #F3F4F6;  /* Light gray track */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -61,7 +61,7 @@ body {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #1A2332 0%, #2D3748 50%, #1A2332 100%);
+  background: linear-gradient(90deg, #E5E7EB 0%, #D1D5DB 50%, #E5E7EB 100%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite;
 }

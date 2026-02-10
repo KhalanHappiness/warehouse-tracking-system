@@ -62,7 +62,7 @@ const Tracking = () => {
           <div className="mt-4 p-4 bg-navy rounded-lg">
             <p className="text-sm text-gray-400">
               <strong className="text-primary">Tracking Information</strong><br />
-              Enter your Golden Sail tracking number to get detailed information about your shipment's current status and location.
+              Enter your tracking number to get detailed information about your shipment's current status and location.
             </p>
           </div>
         </Card>
