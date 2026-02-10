@@ -25,25 +25,25 @@ const QuoteCalculator = () => {
     }
   };
 
-  const handleCalculate = async (e) => {
-    e.preventDefault();
-    if (!selectedMethod) return;
+    const handleCalculate = async (e) => {
+      e.preventDefault();
+      if (!selectedMethod) return;
 
-    setLoading(true);
-    try {
-      const quoteData = await quoteService.calculateQuote({
-        shipping_method_id: selectedMethod.id,
-        actual_weight: parseFloat(formData.actual_weight),
-        volume_cbm: parseFloat(formData.volume_cbm),
-      });
-      setQuote(quoteData);
-    } catch (error) {
-      console.error('Failed to calculate quote:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+      setLoading(true);
+      try {
+        const quoteData = await quoteService.calculateQuote({
+          shipping_method_id: selectedMethod.id,
+          actual_weight: parseFloat(formData.actual_weight),
+          volume_cbm: parseFloat(formData.volume_cbm),
+        });
+        console.log('Quote data received:', quoteData);  // ADD THIS
+        setQuote(quoteData);
+      } catch (error) {
+        console.error('Failed to calculate quote:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
   return (
     <div className="min-h-screen bg-navy-dark py-8">
       <div className="max-w-5xl mx-auto px-4">
@@ -110,32 +110,34 @@ const QuoteCalculator = () => {
             </form>
 
             {quote && (
-              <div className="mt-6 p-6 bg-navy rounded-lg">
-                <div className="text-center mb-4">
-                  <h4 className="text-sm text-gray-400 mb-2">Total Shipping Cost</h4>
-                  <p className="text-4xl font-bold text-primary">{quote.currency} {quote.total_cost?.toLocaleString()}</p>
+                <div className="mt-6 p-6 bg-navy rounded-lg">
+                  <div className="text-center mb-4">
+                    <h4 className="text-sm text-gray-400 mb-2">Total Shipping Cost</h4>
+                    <p className="text-4xl font-bold text-primary">
+                      {quote.currency} {quote.total_cost?.toLocaleString() || '0'}
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-sm border-t border-navy-light pt-4">
+                    <div>
+                      <p className="text-gray-400">Actual Weight</p>
+                      <p className="text-white">{quote.actual_weight || '0'} kg</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Volume Weight</p>
+                      <p className="text-white">{quote.volume_cbm ? (quote.volume_cbm * 166).toFixed(2) : '0'} kg</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Chargeable Weight</p>
+                      <p className="text-primary font-bold">{quote.chargeable_weight || '0'} kg</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Rate</p>
+                      <p className="text-white">{quote.currency} {quote.rate || '0'}/{quote.shipping_method?.rate_type === 'per_kg' ? 'kg' : 'CBM'}</p>
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4 text-sm border-t border-navy-light pt-4">
-                  <div>
-                    <p className="text-gray-400">Actual Weight</p>
-                    <p className="text-white">{quote.actual_weight} kg</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-400">Volume Weight</p>
-                    <p className="text-white">{(quote.volume_cbm * 166).toFixed(2)} kg</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-400">Chargeable Weight</p>
-                    <p className="text-primary font-bold">{quote.chargeable_weight} kg</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-400">Rate</p>
-                    <p className="text-white">{quote.currency} {quote.rate}/kg</p>
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
           </Card>
         )}
       </div>

@@ -7,6 +7,6 @@ shipping_methods_bp = Blueprint('shipping_methods', __name__)
 def get_shipping_methods():
     try:
         methods = ShippingMethod.query.filter_by(is_active=True).all()
-        return jsonify({'shipping_methods': [m.to_dict() for m in methods]}), 200
+        return jsonify([m.to_dict() for m in methods]), 200  # Return array directly
     except Exception as e:
         return jsonify({'error': str(e)}), 500
