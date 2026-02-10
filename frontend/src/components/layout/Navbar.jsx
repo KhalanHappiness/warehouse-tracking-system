@@ -33,8 +33,8 @@ const Navbar = () => {
               <span className="text-navy font-bold text-xl">GS</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-primary">Golden Sail</h1>
-              <p className="text-xs text-gray-400">Logistics</p>
+              <h1 className="text-xl font-bold text-primary">Logistics Tracker</h1>
+              {/* <p className="text-xs text-gray-400">Logistics</p> */}
             </div>
           </Link>
 

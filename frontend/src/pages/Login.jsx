@@ -36,7 +36,7 @@ const Login = () => {
             <span className="text-navy font-bold text-2xl">GS</span>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-gray-400">Login to your Golden Sail account</p>
+          <p className="text-gray-400">Login to your Logistics Tracker account</p>
         </div>
 
         <Card>
