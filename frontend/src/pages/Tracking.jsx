@@ -34,13 +34,13 @@ const Tracking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-navy-dark py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-8">
           <div className="inline-flex p-4 rounded-full bg-primary/10 mb-4">
             <FiPackage className="text-5xl text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Track Your Package</h1>
+          <h1 className="text-3xl font-bold text-black mb-2">Track Your Package</h1>
           <p className="text-gray-400">Enter your tracking number to get real-time updates on your shipment</p>
         </div>
 
@@ -59,7 +59,7 @@ const Tracking = () => {
             </Button>
           </form>
           
-          <div className="mt-4 p-4 bg-navy rounded-lg">
+          <div className="mt-4 p-4 bg-white rounded-lg">
             <p className="text-sm text-gray-400">
               <strong className="text-primary">Tracking Information</strong><br />
               Enter your tracking number to get detailed information about your shipment's current status and location.
@@ -87,20 +87,20 @@ const Tracking = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Description</p>
-                  <p className="text-white">{shipment.description}</p>
+                  <p className="text-black">{shipment.description}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Consignment Number</p>
-                  <p className="text-white">{shipment.consignment_number}</p>
+                  <p className="text-black">{shipment.consignment_number}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Cartons</p>
-                  <p className="text-white">{shipment.cartons}</p>
+                  <p className="text-black">{shipment.cartons}</p>
                 </div>
               </div>
 
-              <div className="bg-navy rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-white mb-3">Shipping Details</h3>
+              <div className="bg-white  rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-black mb-3">Shipping Details</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-gray-400">Status</p>
@@ -108,22 +108,22 @@ const Tracking = () => {
                   </div>
                   <div>
                     <p className="text-gray-400">Actual Weight</p>
-                    <p className="text-white">{shipment.actual_weight} kg</p>
+                    <p className="text-black">{shipment.actual_weight} kg</p>
                   </div>
                   <div>
                     <p className="text-gray-400">Volume</p>
-                    <p className="text-white">{shipment.volume_cbm} CBM</p>
+                    <p className="text-black">{shipment.volume_cbm} CBM</p>
                   </div>
                   <div>
                     <p className="text-gray-400">Chargeable Weight</p>
-                    <p className="text-white">{shipment.chargeable_weight} kg</p>
+                    <p className="text-black">{shipment.chargeable_weight} kg</p>
                   </div>
                 </div>
               </div>
             </Card>
 
             <Card>
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+              <h3 className="text-xl font-bold text-black mb-6 flex items-center">
                 <FiClock className="mr-2" />
                 Tracking Status
               </h3>
@@ -140,7 +140,7 @@ const Tracking = () => {
                       )}
                     </div>
                     
-                    <div className={`flex-1 pb-6 ${event.is_current ? 'text-white' : 'text-gray-500'}`}>
+                    <div className={`flex-1 pb-6 ${event.is_current ? 'text-black' : 'text-gray-500'}`}>
                       <div className="flex items-start justify-between mb-1">
                         <h4 className="font-semibold">{event.event_type}</h4>
                         {event.is_current && (
