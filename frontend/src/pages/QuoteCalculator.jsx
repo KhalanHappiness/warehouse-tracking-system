@@ -45,13 +45,13 @@ const QuoteCalculator = () => {
       }
     };
   return (
-    <div className="min-h-screen bg-navy-dark py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-8">
           <div className="inline-flex p-4 rounded-full bg-primary/10 mb-4">
             <FiDollarSign className="text-5xl text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Shipping Quote Calculator</h1>
+          <h1 className="text-3xl font-bold text-black mb-2">Shipping Quote Calculator</h1>
           <p className="text-gray-400">Get instant shipping quotes for air and sea freight from China to Kenya</p>
         </div>
 
@@ -70,7 +70,7 @@ const QuoteCalculator = () => {
                   {method.type === 'air' ? <FiPackage className="text-2xl text-blue-400" /> : <FiTruck className="text-2xl text-green-400" />}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white mb-1">{method.name}</h3>
+                  <h3 className="text-lg font-semibold text-black mb-1">{method.name}</h3>
                   <p className="text-sm text-gray-400 mb-2">{method.transit_days}</p>
                   <p className="text-2xl font-bold text-primary">{method.currency} {method.base_rate}/{method.rate_type === 'per_kg' ? 'kg' : 'CBM'}</p>
                 </div>
@@ -82,7 +82,7 @@ const QuoteCalculator = () => {
         {selectedMethod && (
           <Card>
             <form onSubmit={handleCalculate} className="space-y-6">
-              <h3 className="text-xl font-bold text-white">{selectedMethod.name}</h3>
+              <h3 className="text-xl font-bold text-black">{selectedMethod.name}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
@@ -121,11 +121,11 @@ const QuoteCalculator = () => {
                   <div className="grid grid-cols-2 gap-4 text-sm border-t border-navy-light pt-4">
                     <div>
                       <p className="text-gray-400">Actual Weight</p>
-                      <p className="text-white">{quote.actual_weight || '0'} kg</p>
+                      <p className="text-black">{quote.actual_weight || '0'} kg</p>
                     </div>
                     <div>
                       <p className="text-gray-400">Volume Weight</p>
-                      <p className="text-white">{quote.volume_cbm ? (quote.volume_cbm * 166).toFixed(2) : '0'} kg</p>
+                      <p className="text-black">{quote.volume_cbm ? (quote.volume_cbm * 166).toFixed(2) : '0'} kg</p>
                     </div>
                     <div>
                       <p className="text-gray-400">Chargeable Weight</p>
@@ -133,7 +133,7 @@ const QuoteCalculator = () => {
                     </div>
                     <div>
                       <p className="text-gray-400">Rate</p>
-                      <p className="text-white">{quote.currency} {quote.rate || '0'}/{quote.shipping_method?.rate_type === 'per_kg' ? 'kg' : 'CBM'}</p>
+                      <p className="text-black">{quote.currency} {quote.rate || '0'}/{quote.shipping_method?.rate_type === 'per_kg' ? 'kg' : 'CBM'}</p>
                     </div>
                   </div>
                 </div>
