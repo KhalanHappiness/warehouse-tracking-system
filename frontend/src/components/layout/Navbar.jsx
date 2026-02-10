@@ -24,13 +24,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-navy border-b border-navy-light sticky top-0 z-50">
+    <nav className="bg-white border-b border-navy-light sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-navy font-bold text-xl">GS</span>
+              <span className="text-navy font-bold text-xl">LT</span>
             </div>
             <div>
               <h1 className="text-xl font-bold text-primary">Logistics Tracker</h1>
@@ -44,7 +44,7 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className="flex items-center space-x-1 text-gray-300 hover:text-primary transition-colors"
+                className="flex items-center space-x-1 text-navy hover:text-primary transition-colors"
               >
                 {link.icon}
                 <span>{link.name}</span>
