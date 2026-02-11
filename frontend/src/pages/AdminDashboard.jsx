@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPackage, FiUsers, FiTrendingUp, FiDollarSign, FiEdit, FiEye } from 'react-icons/fi';
+import { FiPackage, FiUsers, FiTrendingUp, FiDollarSign, FiEdit, FiEye, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 
@@ -14,10 +14,34 @@ const AdminDashboard = () => {
   });
   const [selectedShipment, setSelectedShipment] = useState(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [shippingMethods, setShippingMethods] = useState([]);
+  
+  // Form state for creating shipment
+  const [newShipment, setNewShipment] = useState({
+    description: '',
+    cartons: '',
+    actual_weight: '',
+    volume_cbm: '',
+    shipping_method_id: '',
+    origin: '',
+    destination: '',
+    consignment_number: ''
+  });
 
   useEffect(() => {
     loadData();
+    loadShippingMethods();
   }, []);
+
+  const loadShippingMethods = async () => {
+    try {
+      const response = await api.get('/shipping-methods/');
+      setShippingMethods(response.data.shipping_methods || []);
+    } catch (error) {
+      console.error('Failed to load shipping methods:', error);
+    }
+  };
 
   const loadData = async () => {
     try {
@@ -35,6 +59,29 @@ const AdminDashboard = () => {
       console.error('Failed to load admin data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateShipment = async (e) => {
+    e.preventDefault();
+    try {
+      await api.post('/admin/shipments', newShipment);
+      alert('Shipment created successfully!');
+      setShowCreateModal(false);
+      setNewShipment({
+        description: '',
+        cartons: '',
+        actual_weight: '',
+        volume_cbm: '',
+        shipping_method_id: '',
+        origin: '',
+        destination: '',
+        consignment_number: ''
+      });
+      loadData();
+    } catch (error) {
+      console.error('Failed to create shipment:', error);
+      alert('Failed to create shipment: ' + (error.response?.data?.error || error.message));
     }
   };
 
@@ -68,10 +115,19 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-background-secondary">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-text mb-2">Admin Dashboard</h1>
-          <p className="text-text-secondary">Manage all shipments and track performance</p>
+        {/* Header with Create Button */}
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-text mb-2">Admin Dashboard</h1>
+            <p className="text-text-secondary">Manage all shipments and track performance</p>
+          </div>
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="flex items-center space-x-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          >
+            <FiPlus className="text-xl" />
+            <span>Create Shipment</span>
+          </button>
         </div>
 
         {/* Stats Grid */}
@@ -191,7 +247,7 @@ const AdminDashboard = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <div className="flex items-center space-x-3">
                           <Link 
-                            to={`/tracking/${shipment.tracking_number}`}
+                            to={`/tracking`}
                             className="text-primary hover:text-primary-dark"
                             title="View Details"
                           >
@@ -215,7 +271,13 @@ const AdminDashboard = () => {
                   <tr>
                     <td colSpan="6" className="px-6 py-12 text-center">
                       <FiPackage className="text-5xl text-text-muted mx-auto mb-4" />
-                      <p className="text-text-muted">No shipments found</p>
+                      <p className="text-text-muted mb-4">No shipments found</p>
+                      <button
+                        onClick={() => setShowCreateModal(true)}
+                        className="text-primary hover:text-primary-dark font-medium"
+                      >
+                        Create your first shipment
+                      </button>
                     </td>
                   </tr>
                 )}
@@ -223,6 +285,137 @@ const AdminDashboard = () => {
             </table>
           </div>
         </div>
+
+        {/* Create Shipment Modal */}
+        {showCreateModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full my-8 p-6">
+              <h3 className="text-2xl font-bold text-text mb-6">Create New Shipment</h3>
+              
+              <form onSubmit={handleCreateShipment} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Description *</label>
+                    <input
+                      type="text"
+                      required
+                      value={newShipment.description}
+                      onChange={(e) => setNewShipment({...newShipment, description: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., Electronics, Toys, etc."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Consignment Number</label>
+                    <input
+                      type="text"
+                      value={newShipment.consignment_number}
+                      onChange={(e) => setNewShipment({...newShipment, consignment_number: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., sea_186"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Number of Cartons *</label>
+                    <input
+                      type="number"
+                      required
+                      value={newShipment.cartons}
+                      onChange={(e) => setNewShipment({...newShipment, cartons: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., 24"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Actual Weight (kg) *</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      required
+                      value={newShipment.actual_weight}
+                      onChange={(e) => setNewShipment({...newShipment, actual_weight: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., 2000"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Volume (CBM) *</label>
+                    <input
+                      type="number"
+                      step="0.001"
+                      required
+                      value={newShipment.volume_cbm}
+                      onChange={(e) => setNewShipment({...newShipment, volume_cbm: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., 5"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Shipping Method *</label>
+                    <select
+                      required
+                      value={newShipment.shipping_method_id}
+                      onChange={(e) => setNewShipment({...newShipment, shipping_method_id: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    >
+                      <option value="">Select method...</option>
+                      {shippingMethods.map((method) => (
+                        <option key={method.id} value={method.id}>
+                          {method.name} - {method.currency} {method.base_rate}/{method.rate_type === 'per_kg' ? 'kg' : 'CBM'}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Origin *</label>
+                    <input
+                      type="text"
+                      required
+                      value={newShipment.origin}
+                      onChange={(e) => setNewShipment({...newShipment, origin: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., Guangdong, China"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-2">Destination *</label>
+                    <input
+                      type="text"
+                      required
+                      value={newShipment.destination}
+                      onChange={(e) => setNewShipment({...newShipment, destination: e.target.value})}
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="e.g., Mombasa, Kenya"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowCreateModal(false)}
+                    className="flex-1 px-4 py-2 border border-border rounded-lg hover:bg-background-secondary transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium"
+                  >
+                    Create Shipment
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* Update Status Modal */}
         {showUpdateModal && selectedShipment && (
