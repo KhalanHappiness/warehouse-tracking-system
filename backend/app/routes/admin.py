@@ -56,3 +56,54 @@ def update_shipment_status(current_user, shipment_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
+
+@admin_bp.route('/shipments', methods=['POST'])
+@admin_required
+def create_shipment(current_user):
+    try:
+        data = request.get_json()
+        
+        # Generate tracking number
+        tracking_number = Shipment.generate_tracking_number()
+        
+        # Create shipment
+        shipment = Shipment(
+            tracking_number=tracking_number,
+            shipping_method_id=data.get('shipping_method_id'),
+            consignment_number=data.get('consignment_number'),
+            description=data.get('description'),
+            cartons=data.get('cartons'),
+            actual_weight=data.get('actual_weight'),
+            volume_cbm=data.get('volume_cbm'),
+            origin=data.get('origin'),
+            destination=data.get('destination'),
+            current_status='pending'
+        )
+        
+        # Calculate weights and costs
+        shipment.calculate_chargeable_weight()
+        
+        db.session.add(shipment)
+        db.session.commit()
+        
+        # Create initial tracking event
+        event = TrackingEvent(
+            shipment_id=shipment.id,
+            event_type='Shipment Created',
+            location=data.get('origin'),
+            description='Shipment registered in system',
+            is_current=True
+        )
+        db.session.add(event)
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Shipment created successfully',
+            'shipment': shipment.to_dict()
+        }), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error creating shipment: {str(e)}")
+        return jsonify({'error': str(e)}), 500
